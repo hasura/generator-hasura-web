@@ -1,0 +1,38 @@
+:global {
+  .menu {
+    position: absolute;
+    top :20px;
+    right:20px;
+  }
+  svg {
+    border: 1px solid #999;
+  }
+
+  .node { cursor: pointer; }
+  .node text { font: 12px sans-serif; }
+  .node > text { pointer-events: none; }
+  .node.rel-node text { font-style: italic; }
+
+  .node rect { fill: rgb(251, 239, 183); }
+  .node polygon { display: none; }
+  .node.rel-node rect { fill: rgb(183, 251, 239); }
+  .node.rel-node polygon { fill: rgb(183, 251, 239); display: block;}
+
+  .table-details { font: 12px sans-serif; }
+  .table-details rect { fill: rgb(251, 239, 183); }
+  .table-details.rel-details rect { fill: rgb(183, 251, 239); }
+  .table-details .col-container text { font-style: normal;}
+  .table-details .col-heading text { font-weight: bold;}
+  .table-details .col-heading text tspan { font-weight: normal;}
+  .table-details .col-actions text { font-style: italic; cursor: pointer; font-size: 10px;}
+  .table-details .col-actions text:hover { fill: red; }
+  .table-details rect.col-rect {stroke: #999; stroke-width: 0.5px; }
+  .table-details .col-text tspan { font-family: monospace; }
+
+  .link {
+    fill: none;
+    stroke: #ccc;
+    stroke-width: 2px;
+  }
+
+}

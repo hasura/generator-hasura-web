@@ -1,0 +1,55 @@
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.container {
+}
+
+.flexRow {
+  display: flex;
+}
+
+.add_btn {
+  margin: 10px 0;
+}
+
+.account {
+  padding: 20px 0;
+  line-height: 26px;
+}
+
+.sidebar {
+  height: calc(100vh - 50px);
+  overflow: scroll;
+  background: #444;
+  color: $navbar-inverse-color;
+  hr {
+    margin: 0;
+    border-color: $navbar-inverse-color;
+  }
+  ul {
+    list-style-type: none;
+    padding-top: 10px;
+    padding-left: 7px;
+    li {
+      padding: 7px 0;
+      transition: color 0.5s;
+      a,a:visited {
+        color: $navbar-inverse-link-color;
+      }
+      a:hover {
+        color: $navbar-inverse-link-hover-color;
+      }
+    }
+    li:hover {
+      padding: 7px 0;
+      color: $navbar-inverse-link-hover-color;
+      transition: color 0.5s;
+      pointer: cursor;
+    }
+   }
+}
+
+.main {
+  padding: 0;
+  height: calc(100vh - 50px);
+  overflow: scroll;
+}

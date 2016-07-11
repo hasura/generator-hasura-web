@@ -1,0 +1,23 @@
+button.control {
+  width: 100%;
+}
+.readyIcon {
+  color: green;
+}
+
+.failIcon {
+  color: red;
+}
+
+.eventContainer {
+  overflow: scroll;
+}
+
+.logContainer {
+  overflow: scroll;
+}
+
+
+table td.longOne {
+  max-width: 500px;
+}

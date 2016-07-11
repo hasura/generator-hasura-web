@@ -1,0 +1,41 @@
+.home {
+  padding-top: 0;
+  code {
+    color: #484848;
+  }
+}
+.projectName {
+  color: #666;
+}
+.box {
+  padding: 10px;
+  border: 1px solid #ddd;
+  background: #eee;
+  padding-top: 0;
+  box-shadow: 1px 1px 4px 0px rgba(224,224,224,1);
+  float: left;
+  margin: 10px;
+}
+.boxFooter {
+  font-size: 0.9em;
+  font-style: italic;
+}
+
+.accordion {
+  cursor: pointer;
+  background: #eee;
+  border-radius: 2px;
+  overflow: hidden;
+  height: 50px;
+  max-width: 1000px;
+  h5 {
+    height: 50px;
+  }
+  img {
+    width: 1205px;
+  }
+}
+
+.accordion.expanded {
+  height: auto;
+}

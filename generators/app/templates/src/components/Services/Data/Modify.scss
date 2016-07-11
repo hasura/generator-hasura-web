@@ -1,0 +1,33 @@
+.container {
+  padding: 0;
+  h4 {
+    text-decoration: underline;
+  }
+}
+
+.fixed {
+  position: fixed;
+  top: 90px;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+}
+
+.colEditor {
+  :global(.form-control):focus {
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 0px rgba(102, 175, 233, 0.6);
+  }
+}
+
+.activeEdit {
+  background: #eaeaea;
+  padding: 10px;
+}
+
+.leftIndent {
+  padding-left: 15px;
+}
+
+.removeBtnPadding {
+  padding-left: 66px;
+}
