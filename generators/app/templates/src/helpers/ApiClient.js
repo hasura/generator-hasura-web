@@ -1,47 +1,77 @@
-import superagent from 'superagent';
-import config from '../config';
+import fetch from 'isomorphic-fetch';
+import {domain} from '../Endpoints'; // help
 
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
   const adjustedPath = path[0] !== '/' ? '/' + path : path;
-  if (__SERVER__) {
-    // Prepend host and port of the API server to the path.
-    return 'http://' + config.apiHost + ':' + config.apiPort + adjustedPath;
-  }
-  // Prepend `/api` to relative URL, to proxy to API server.
-  return '/api' + adjustedPath;
+  return 'http://' + domain + adjustedPath;
 }
 
-/*
- * This silly underscore is here to avoid a mysterious "ReferenceError: ApiClient is not defined" error.
- * See Issue #14. https://github.com/erikras/react-redux-universal-hot-example/issues/14
- *
- * Remove it at your own risk.
- */
-class _ApiClient {
+export default class ApiClient {
   constructor(req) {
     methods.forEach((method) =>
-      this[method] = (path, { params, data } = {}) => new Promise((resolve, reject) => {
-        const request = superagent[method](formatUrl(path));
+      // Make function for each method
+      this[method] = (path, isJSON = true, data = {}) =>
+        // Each function creates a Promise
+        new Promise((resolve, reject) => {
+          // Request
+          const requestParams = [
+            formatUrl(path),
+            {
+              mode: 'cors'
+            }
+          ];
 
-        if (params) {
-          request.query(params);
-        }
+          if (data) {
+            requestParams[1] = { ...requestParams[1], body: data };
+          }
 
-        if (__SERVER__ && req.get('cookie')) {
-          request.set('cookie', req.get('cookie'));
-        }
-
-        if (data) {
-          request.send(data);
-        }
-
-        request.end((err, { body } = {}) => err ? reject(body || err) : resolve(body));
-      }));
+          if (__SERVER__ && req.get('cookie')) {
+            requestParams[1] = { ...requestParams[1], cookie: req.get('cookie') };
+          }
+          /*eslint-disable*/
+          fetch(...requestParams).then(
+            (response) => {
+              if (response.ok) {
+                if (isJSON) {
+                  return response.json().then((results) => {
+                    resolve(results);
+                  });
+                } else {
+                  return response.text().then((results) => {
+                    resolve(results);
+                  });
+                }
+              }
+              else if (response.status >= 400 && response.status < 500) {
+                if (isJSON) {
+                  return response.json().then((errorMsg) => {
+                    reject(errorMsg);
+                  });
+                } else {
+                  return response.text().then((errorMsg) => {
+                    reject(errorMsg);
+                  });
+                }
+              }
+              reject(response);
+            }, (error) => {
+              reject(error);
+            }
+          );
+          /*eslint-enable*/
+        }));
   }
+  /*
+   * There's a V8 bug where, when using Babel, exporting classes with only
+   * constructors sometimes fails. Until it's patched, this is a solution to
+   * "ApiClient is not defined" from issue #14.
+   * https://github.com/erikras/react-redux-universal-hot-example/issues/14
+   *
+   * Relevant Babel bug (but they claim it's V8): https://phabricator.babeljs.io/T2455
+   *
+   * Remove it at your own risk.
+   */
+  empty() {}
 }
-
-const ApiClient = _ApiClient;
-
-export default ApiClient;

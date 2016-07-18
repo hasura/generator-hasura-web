@@ -1,6 +1,6 @@
 {
   "name": "generator-hasura-web",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Builds a simple scaffold to make a Hasura app using React + Redux.",
   "homepage": "http://hasura.io/",
   "author": {

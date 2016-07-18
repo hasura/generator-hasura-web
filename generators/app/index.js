@@ -24,26 +24,24 @@ module.exports = yeoman.Base.extend({
     this.log(yosay(
       'Welcome to the ' + chalk.red('generator-hasura') + ' generator!'
     ));
+    this.log('Creating Example app on the current directory.');
   },
 
   writing: function () {
     // root files
     var copyFiles = fileListCopy.bind(this);
     var baseFiles = [
+      'app.json',
       'package.json',
       'hasuraconfig.js',
       'README.md',
       'runserver.sh',
-      'reducerTest.js',
-      'tests.webpack.js',
-      'karma.conf.js',
       '.babelrc',
+      '.bootstraprc',
       '.editorconfig',
       '.eslintrc',
       '.eslintignore',
-      '.travis.yml',
       'server.babel.js',
-      'api/',
       'bin/',
       'src/',
       'static/',

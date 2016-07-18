@@ -1,0 +1,39 @@
+@import "~bootstrap-sass/assets/stylesheets/bootstrap/variables";
+
+.container {
+  position: relative;
+}
+
+.header {
+  background: $navbar-inverse-bg;
+  color: $navbar-inverse-color;
+  height: 50px;
+  text-align: right;
+  padding: 0;
+  padding-right: 15px;
+  
+  img {
+    height: 50px;
+    float: left;
+  }
+  .headerItem {
+    display: inline-block;
+    color: $navbar-inverse-color;
+    line-height: 15px;
+    font-size: 15px;
+    padding: 17.5px 15px;
+    cursor: pointer;
+  }
+  .headerItem:hover {
+    display: inline-block;
+    color: $navbar-inverse-link-hover-color;
+    transition: color 0.5s;
+  }
+  .headerItem:hover * {
+    color: $navbar-inverse-link-hover-color;
+    transition: color 0.5s;
+  }
+  .headerItem * {
+    color: $navbar-inverse-color;
+  }
+}

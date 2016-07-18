@@ -6,7 +6,8 @@ var webpack = require('webpack');
 var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
-var hasuraConfig = require('../hasuraconfig')
+var autoprefixer = require('autoprefixer');
+var hasuraConfig = require('../hasuraconfig');
 
 var relativeAssetsPath = '../static/dist';
 var assetsPath = path.join(__dirname, relativeAssetsPath);
@@ -20,7 +21,7 @@ module.exports = {
   context: path.resolve(__dirname, '..'),
   entry: {
     'main': [
-      'bootstrap-sass!./src/theme/bootstrap.config.prod.js',
+      'bootstrap-loader',
       'font-awesome-webpack!./src/theme/font-awesome.config.prod.js',
       './src/client.js'
     ]
@@ -35,16 +36,18 @@ module.exports = {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!autoprefixer?browsers=last 2 version!less?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
+      { test: /\.less$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!postcss-loader!less?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
+      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!postcss-loader!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
       { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=image/svg+xml" },
-      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
+      { test: webpackIsomorphicToolsPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' },
+      { test:/bootstrap-sass[\/\\]assets[\/\\]javascripts[\/\\]/, loader: 'imports?jQuery=jquery' }
     ]
   },
+  postcss: [ autoprefixer({ browsers: ['last 2 versions'] }) ],
   progress: true,
   resolve: {
     modulesDirectories: [

@@ -15,12 +15,12 @@ import Helmet from 'react-helmet';
 export default class Html extends Component {
   static propTypes = {
     assets: PropTypes.object,
-    component: PropTypes.node
+    component: PropTypes.node,
+    initialStore: PropTypes.object
   }
 
   render() {
-    const {assets, component} = this.props;
-    const content = component ? ReactDOM.renderToString(component) : '';
+    const {assets, component, initialStore} = this.props;
     const head = Helmet.rewind();
     const code = `
           window.__insp = window.__insp || [];
@@ -64,8 +64,9 @@ export default class Html extends Component {
             `window.__env={ namespace: '${process.env.NAMESPACE}', scheme: '${process.env.SCHEME}', baseDomain: '${process.env.BASE_DOMAIN}' };` }} />
         </head>
         <body>
-          <div id="content" dangerouslySetInnerHTML={{__html: content}}/>
+          <div id="content" dangerouslySetInnerHTML={{__html: component}}/>
           <script src={assets.javascript.main} charSet="UTF-8"/>
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(initialStore)};`}} charSet="UTF-8"/>
         </body>
       </html>
     );

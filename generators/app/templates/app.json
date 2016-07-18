@@ -1,0 +1,18 @@
+{
+  "name": "hasura-example-app",
+  "description": "Example of a webapp of Hasura using React and Redux with Babel and Webpack.",
+  "repository": "",
+  "logo": "g",
+  "keywords": [
+    "hasura",
+    "react",
+    "isomorphic",
+    "universal",
+    "webpack",
+    "express",
+    "redux",
+    "starter",
+    "boilerplate",
+    "babel"
+  ]
+}
