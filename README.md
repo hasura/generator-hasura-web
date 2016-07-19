@@ -25,10 +25,10 @@ yo hasura-web
 
 ## On Development
  * Get Yeoman and yo command setup.
- * Clone this git repo
+ * Clone this git repo and run `npm install`
  * Run `npm link` at this repo's root.
- * Go to the new folder to create project.
- * Run `yo hasura-web`.
+ * Create a new folder to create a new project.
+ * Run `yo hasura-web` inside the new folder.
  * Run `npm install` if it didn't run properly.
 
 ## License
