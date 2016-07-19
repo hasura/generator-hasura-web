@@ -1,8 +1,8 @@
 import React from 'react';
-import {Router, Route, IndexRoute} from 'react-router';
+import {Router, Route, IndexRoute, Redirect} from 'react-router';
 
 // Load components
-import { Layout, Example, SOSearch, NotFound } from './components';
+import { Layout, Example, SOSearch } from './components';
 
 // Main routes
 const routes = (history) => {
@@ -13,7 +13,7 @@ const routes = (history) => {
         <IndexRoute component={Example}/>
         <Route path="sosearch/:query" component={SOSearch}/>
       </Route>
-      <Route path="*" component={NotFound}/>
+      <Redirect from="*" to="/"/>
     </Router>
   );
 };
