@@ -60,30 +60,30 @@ app.use((req, res) => {
 
   // Match the state of the store to the router and respond
   match({ history, routes: routes(history, store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
-    loadOnServer({...renderProps, store, helpers: {client}}).then(() => {
-      if (redirectLocation) {
-        res.redirect(redirectLocation.pathname + redirectLocation.search);
-      } else if (error) {
-        console.error('ROUTER ERROR:', pretty.render(error));
-        res.status(500);
-        hydrateOnClient();
-      } else if (renderProps) {
-          const component = ReactDOM.renderToString(
-            <Provider store={store} key="provider">
-              <ReduxAsyncConnect {...renderProps} />
-            </Provider>
-          );
+    if (redirectLocation) {
+      res.redirect(redirectLocation.pathname + redirectLocation.search);
+    } else if (error) {
+      console.error('ROUTER ERROR:', pretty.render(error));
+      res.status(500);
+      hydrateOnClient();
+    } else if (renderProps) {
+      loadOnServer({...renderProps, store, helpers: {client}}).then(() => {
+        const component = ReactDOM.renderToString(
+          <Provider store={store} key="provider">
+            <ReduxAsyncConnect {...renderProps} />
+          </Provider>
+        );
 
-          global.navigator = {userAgent: req.headers['user-agent']};
+        global.navigator = {userAgent: req.headers['user-agent']};
 
-          res.status(200);
+        res.status(200);
 
-          res.send('<!DOCTYPE html>\n' +
-            ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
-      } else {
-        res.status(404).send('Not found');
-      }
-    });
+        res.send('<!DOCTYPE html>\n' +
+          ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
+      });
+    } else {
+      res.status(404).send('Not found');
+    }
   });
 });
 
