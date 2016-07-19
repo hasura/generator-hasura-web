@@ -9,9 +9,9 @@ if (globals.namespace === 'default') {
 }
 
 const Endpoints = {
-  
+
 };
 const globalCookiePolicy = 'include';
 
 export default Endpoints;
-export {globalCookiePolicy, domain};
+export {globalCookiePolicy, domain, scheme};

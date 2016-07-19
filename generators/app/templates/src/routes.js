@@ -12,8 +12,8 @@ const routes = (history) => {
       <Route path="/" component={Layout}>
         <IndexRoute component={Example}/>
         <Route path="sosearch/:query" component={SOSearch}/>
+        <Redirect from="*" to="/"/>
       </Route>
-      <Redirect from="*" to="/"/>
     </Router>
   );
 };
