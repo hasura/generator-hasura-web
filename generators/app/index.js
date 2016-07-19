@@ -22,7 +22,7 @@ module.exports = yeoman.Base.extend({
   prompting: function () {
     // Have Yeoman greet the user.
     this.log(yosay(
-      'Welcome to the ' + chalk.red('generator-hasura') + ' generator!'
+      'Welcome to the ' + chalk.red('generator-hasura-web') + ' generator!'
     ));
     this.log('Creating Example app on the current directory.');
   },
@@ -51,6 +51,6 @@ module.exports = yeoman.Base.extend({
   },
 
   install: function () {
-    this.installDependencies();
+    this.installDependencies({ bower: false });
   }
 });

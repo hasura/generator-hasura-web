@@ -45,7 +45,7 @@
       "mocha": true
     }
   },
-  "repository": "hasura/generator-hasura",
+  "repository": "hasura/generator-hasura-web",
   "scripts": {
     "prepublish": "gulp prepublish",
     "test": "gulp"
