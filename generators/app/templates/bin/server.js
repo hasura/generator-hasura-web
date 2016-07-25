@@ -15,8 +15,7 @@ global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
 if (__DEVELOPMENT__) {
   if (!require('piping')({
       hook: true,
-      ignore: /(\/\.|~$|\.json|\.scss$)/i,
-      usePolling: true
+      ignore: /(\/\.|~$|\.json|\.scss$)/i
     })) {
     return; //The parent process ends, and child process continues from below
   }

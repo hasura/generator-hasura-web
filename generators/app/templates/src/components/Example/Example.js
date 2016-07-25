@@ -5,34 +5,42 @@ import Helmet from 'react-helmet';
 import EnterName from '../EnterName/EnterName';
 import SOSearch from '../SOSearch/SOSearch';
 
-const Example = ({ name }) => {
-  // Load local styles from component stylesheet
-  const styles = require('./Example.scss');
+class Example extends React.Component {
+  static propTypes = {
+    name: React.PropTypes.string.isRequired
+  };
 
-  let nameFlash;
-  if (name === '') {
-    nameFlash = 'there';
-  } else {
-    nameFlash = name;
-  }
+  render() {
+    const { name } = this.props;
 
-  return (
-    /* Use global styles normally */
-    <div className="container-fluid">
-      {/* You can comment like this */}
-      {/* Setting title here */}
-      <Helmet title="Example App"/>
-      <div className={styles.flash + ' row'}>
-        {/* Use CSS Modules to use the local styles */}
-        <h2 className={styles.red} >Hi { nameFlash }!</h2>
-        <p>You have successfully set up your Hasura app.</p>
+    // Load local styles from component stylesheet
+    const styles = require('./Example.scss');
+
+    let nameFlash;
+    if (name === '') {
+      nameFlash = 'there';
+    } else {
+      nameFlash = name;
+    }
+
+    return (
+      /* Use global styles normally */
+      <div className="container-fluid">
+        {/* You can comment like this */}
+        {/* Setting title here */}
+        <Helmet title="Example App"/>
+        <div className={styles.flash + ' row'}>
+          {/* Use CSS Modules to use the local styles */}
+          <h2 className={styles.red} >Hi { nameFlash }!</h2>
+          <p>You have successfully set up your Hasura app.</p>
+        </div>
+        <EnterName/>
+        <hr/>
+        <SOSearch/>
       </div>
-      <EnterName/>
-      <hr/>
-      <SOSearch/>
-    </div>
-  );
-};
+    );
+  }
+}
 
 const mapStateToProps = (state) => {
   return {...state.entername};
