@@ -12,16 +12,14 @@ import http from 'http';
 import thunk from 'redux-thunk';
 import { createStore, applyMiddleware, compose } from 'redux';
 import {Provider} from 'react-redux';
-import {match} from 'react-router';
+import {match, RouterContext} from 'react-router';
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-async-connect';
 
 import ApiClient from './helpers/ApiClient';
 import createMiddleware from './utils/createMiddleware';
 import reducer from './reducer';
 import routes from './routes';
-import Layout from './components/Layout/Layout';
 
 //Express middleware
 const pretty = new PrettyError();
@@ -59,7 +57,7 @@ app.use((req, res) => {
   const history = syncHistoryWithStore(memoryHistory, store);
 
   // Match the state of the store to the router and respond
-  match({ history, routes: routes(history, store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
+  match({ history, routes: routes(history), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
     if (redirectLocation) {
       res.redirect(redirectLocation.pathname + redirectLocation.search);
     } else if (error) {
@@ -67,20 +65,46 @@ app.use((req, res) => {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
-      loadOnServer({...renderProps, store, helpers: {client}}).then(() => {
-        const component = ReactDOM.renderToString(
-          <Provider store={store} key="provider">
-            <ReduxAsyncConnect {...renderProps} />
-          </Provider>
+        
+        // Returns array of fetchData functions
+        const dispatchAll = () => {
+          // For all matched routes make fetchData promises
+          const rp = renderProps;
+          const allActionCreators = rp.routes.reduce((result, route) => {
+            // Server Dispatch Present?
+            const sdPresent = route && route.serverDispatch !== undefined &&
+              route.serverDispatch.filter(sd => (sd instanceof Array));
+
+            return sdPresent ? [...result, ...route.serverDispatch] : result;
+          }, []);
+
+          return allActionCreators;
+        };
+
+        // Run the promise to fetch all required data.
+        const actionDispatchers = dispatchAll().map(
+          a => store.dispatch(
+            a(renderProps.params ? renderProps.params : undefined)
+          )
         );
+        // console.log(actionDispatchers);
+        Promise.all(actionDispatchers).then(() => {
+          // When all successfully resolved
+          const component = ReactDOM.renderToString(
+            <Provider store={store} key="provider">
+              <RouterContext {...renderProps} />
+            </Provider>
+          );
 
-        global.navigator = {userAgent: req.headers['user-agent']};
+          global.navigator = {userAgent: req.headers['user-agent']};
 
-        res.status(200);
+          res.status(200);
 
-        res.send('<!DOCTYPE html>\n' +
-          ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
-      });
+          res.send('<!DOCTYPE html>\n' +
+            ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
+        }).catch((error) => {
+          console.error('Couldn\'t fetch all data on server:', error);
+        });
     } else {
       res.status(404).send('Not found');
     }

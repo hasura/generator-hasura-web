@@ -4,14 +4,22 @@ const LOAD = 'SOSearch/search';
 const LOAD_SUCCESS = 'SOSearch/search/success';
 const LOAD_FAIL = 'SOSearch/search/fail';
 
-const load = (query) => ({
-  types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-  query: query,
-  promise: (client) => client.get('/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=' + query)
-});
+const load = ({ query }) => {
+  // Take this if off and it will start asking SO for query == 'undefined'
+  if (query === undefined) {
+    return {
+      type: 'NO_QUERY'
+    };
+  }
+  return {
+    types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
+    query: query,
+    promise: (client) => client.get('/2.2/search?order=desc&sort=activity&site=stackoverflow&intitle=' + query)
+  };
+};
 
-const isLoaded = (globalState) => (
-  globalState.sosearch.data && globalState.sosearch.loaded
+const isLoaded = (componentProps) => (
+  componentProps.query && componentProps.questions
 );
 
 const sosearchReducer = (state = defaultState, action) => {

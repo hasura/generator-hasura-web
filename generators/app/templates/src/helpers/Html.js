@@ -58,15 +58,13 @@ export default class Html extends Component {
           {/* ideally one could also include here the style for the current page (Home.scss, About.scss, etc) */}
           {/* Object.keys(assets.styles).length === 0 ? <style dangerouslySetInnerHTML={{__html: require('../theme/bootstrap.config.js') + require('../containers/App/App.scss')._style}}/> : null */}
 
-          {/*FIXME: Use this for serializing SSR data
-             <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(store.getState())};`}} charSet="UTF-8"/>*/}
+          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(initialStore)};`}} charSet="UTF-8"/>
           <script dangerouslySetInnerHTML={{__html:
             `window.__env={ namespace: '${process.env.NAMESPACE}', scheme: '${process.env.SCHEME}', baseDomain: '${process.env.BASE_DOMAIN}' };` }} />
         </head>
         <body>
           <div id="content" dangerouslySetInnerHTML={{__html: component}}/>
           <script src={assets.javascript.main} charSet="UTF-8"/>
-          <script dangerouslySetInnerHTML={{__html: `window.__data=${serialize(initialStore)};`}} charSet="UTF-8"/>
         </body>
       </html>
     );

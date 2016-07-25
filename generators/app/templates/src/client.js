@@ -7,10 +7,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import createLogger from 'redux-logger';
 import thunk from 'redux-thunk';
-import { ReduxAsyncConnect } from 'redux-async-connect';
 import {Provider} from 'react-redux';
-import { Router, browserHistory } from 'react-router';
-import {routerMiddleware, syncHistoryWithStore} from 'react-router-redux';
+import { Router, match, browserHistory } from 'react-router';
+import { routerMiddleware, syncHistoryWithStore} from 'react-router-redux';
 import {compose, createStore, applyMiddleware} from 'redux';
 
 import ApiClient from './helpers/ApiClient';
@@ -52,21 +51,14 @@ if (__DEVELOPMENT__ && module.hot) {
 
 /* ****************************************************************** */
 
-const component = (
-  <Router render={(props) =>
-        <ReduxAsyncConnect {...props} helpers={{client}} filter={item => !item.deferred} />
-      } history={history}>
-    {routes(store)}
-  </Router>
-);
-
 const dest = document.getElementById('content');
-ReactDOM.render(
-  <Provider store={store} key="provider">
-      {component}
-  </Provider>,
-  dest
-);
+match({ history, routes: routes(history) }, (error, redirectLocation, renderProps) => {
+  ReactDOM.render(
+    <Provider store={store} key="provider">
+      <Router {...renderProps} />
+    </Provider>
+    , dest);
+});
 
 /* ****************************************************************** */
 
