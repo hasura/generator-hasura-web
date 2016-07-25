@@ -5,7 +5,7 @@ import { replace } from 'react-router-redux';
 class NotFound extends React.Component {
   static propTypes = {
     dispatch: React.PropTypes.func.isRequired
-  }
+  };
 
   componentDidMount() {
     const { dispatch } = this.props;
