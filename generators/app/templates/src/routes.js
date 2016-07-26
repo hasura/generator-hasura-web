@@ -13,7 +13,7 @@ const routes = (history) => {
     <Router history={history}>
       {/* Show header component on all pages of it's child. */}
       <Route path="/" component={Layout} serverDispatch={[loadHot]}>
-        <IndexRoute component={Example} serverDispatch={[loadResults]} />
+        <IndexRoute component={Example}/>
         <Route path="sosearch/:query" component={SOSearch} serverDispatch={[loadResults]}/>
       </Route>
       <Redirect from="*" to="/"/>
