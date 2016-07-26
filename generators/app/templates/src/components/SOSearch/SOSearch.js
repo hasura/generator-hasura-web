@@ -37,6 +37,7 @@ class SOSearch extends React.Component {
             (e) => {
               e.preventDefault();
               dispatch(push('/sosearch/' + e.target.value));
+              dispatch(loadResults({ query: e.target.value }));
             }
           } value={query} />
           <SOQuestionsList questions={questions} />
