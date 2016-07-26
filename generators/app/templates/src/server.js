@@ -103,7 +103,11 @@ app.use((req, res) => {
           res.send('<!DOCTYPE html>\n' +
             ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
         }).catch((error) => {
-          console.error('Couldn\'t fetch all data on server:', error);
+          // When the API isn't reachable/fulfilled
+          const error_message = new Error('Couldn\'t fetch all data on server:\nServer sent: ' + JSON.stringify(error));
+          console.error(pretty.render(error_message));
+          res.status(500);
+          hydrateOnClient();
         });
     } else {
       res.status(404).send('Not found');
