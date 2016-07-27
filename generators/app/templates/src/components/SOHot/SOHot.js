@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { isLoaded, load as loadResults } from './Actions';
+import { load as loadResults } from './Actions';
 import SOQuestionsList from '../SOQuestionsList/SOQuestionsList';
 
 class SOHot extends React.Component {
   static propTypes = {
     questions: React.PropTypes.array.isRequired,
-    dispatch: React.PropTypes.func.isRequired
+    dispatch: React.PropTypes.func.isRequired,
+    loaded: React.PropTypes.bool.isRequired
   };
 
   componentWillMount() {
-    const { dispatch } = this.props;
-    if (!isLoaded(this.props)) {
+    const { loaded, dispatch } = this.props;
+    if (!loaded) {
       dispatch(loadResults());
     }
   }
@@ -31,7 +32,7 @@ class SOHot extends React.Component {
 const mapStateToProps = (state) => (
   {
     questions: state.sohot.data.results,
-    loading: state.sohot.loading
+    loaded: state.sohot.loaded
   }
 );
 
