@@ -23,7 +23,7 @@ class SOHot extends React.Component {
     return (
       <div>
         <h3>Hot on StackOverflow</h3>
-        <SOQuestionsList questions={questions} />
+        <SOQuestionsList questions={questions} highlightable uniquePrefix="sohot_" />
       </div>
     );
   }

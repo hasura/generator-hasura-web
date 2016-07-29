@@ -65,7 +65,7 @@ app.use((req, res) => {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
-        
+
         // Last matched route
         const lastRoute = renderProps.routes[renderProps.routes.length - 1];
         let status = 200;
