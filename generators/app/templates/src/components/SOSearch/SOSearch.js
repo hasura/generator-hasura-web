@@ -12,7 +12,8 @@ class SOSearch extends React.Component {
     query: React.PropTypes.string.isRequired,
     questions: React.PropTypes.array.isRequired,
     dispatch: React.PropTypes.func.isRequired,
-    loaded: React.PropTypes.bool.isRequired
+    loaded: React.PropTypes.bool.isRequired,
+    loading: React.PropTypes.bool.isRequired
   };
 
   componentWillMount() {
@@ -31,7 +32,7 @@ class SOSearch extends React.Component {
   }
 
   render() {
-    const { dispatch, query, questions } = this.props;
+    const { dispatch, query, questions, loading } = this.props;
     return (
       <div>
         <div className="col-md-8">
@@ -48,7 +49,12 @@ class SOSearch extends React.Component {
               dispatch(push('/sosearch/' + e.target.value));
             }
           } value={query} />
-          <SOQuestionsList questions={questions} />
+          {
+            (loading) ?
+              <p>Loading...</p>
+            :
+              <SOQuestionsList questions={questions} />
+          }
         </div>
         <div className="col-md-4">
           <SOHot />
@@ -62,7 +68,8 @@ const mapStateToProps = (state, ownProps) => (
   {
     query: ownProps.params ? ownProps.params.query : state.sosearch.data.query,
     questions: state.sosearch.data.results,
-    loaded: state.sosearch.loaded
+    loaded: state.sosearch.loaded,
+    loading: state.sosearch.loading || false
   }
 );
 
