@@ -10,7 +10,7 @@ class SOQHighlightable extends React.Component {
       title: React.PropTypes.string.isRequired,
       link: React.PropTypes.string.isRequired
     }).isRequired,
-    unique: React.PropTypes.number.isRequired,
+    unique: React.PropTypes.string.isRequired,
     highlighted: React.PropTypes.bool,
     dispatch: React.PropTypes.func.isRequired
   };
