@@ -38,7 +38,7 @@ MIT © [Vamsi Sai T]()
 
 [npm-image]: https://badge.fury.io/js/generator-hasura-web.svg
 [npm-url]: https://npmjs.org/package/generator-hasura-web
-[travis-image]: https://travis-ci.org/hasrua/generator-hasura-web.svg?branch=master
-[travis-url]: https://travis-ci.org/hasrua/generator-hasura-web
-[daviddm-image]: https://david-dm.org/hasrua/generator-hasura-web.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/hasrua/generator-hasura-web
+[travis-image]: https://travis-ci.org/hasura/generator-hasura-web.svg?branch=master
+[travis-url]: https://travis-ci.org/hasura/generator-hasura-web
+[daviddm-image]: https://david-dm.org/hasura/generator-hasura-web.svg?theme=shields.io
+[daviddm-url]: https://david-dm.org/hasura/generator-hasura-web
