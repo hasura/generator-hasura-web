@@ -1,8 +1,8 @@
 {
   "name": "generator-hasura-web",
-  "version": "0.1.0",
-  "description": "Builds a simple scaffold to make a Hasura app using React + Redux.",
-  "homepage": "http://hasura.io/",
+  "version": "0.2.0-alpha",
+  "description": "Builds a simple scaffold to make an app using React + Redux. In-built with eslint, nodemon, file watch etc.",
+  "homepage": "https://github.com/hasura/generator-hasura-web",
   "author": {
     "name": "Vamsi Sai T",
     "email": "tvamsi@hasura.io",
