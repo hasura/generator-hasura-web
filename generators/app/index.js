@@ -33,7 +33,13 @@ module.exports = yeoman.Base.extend({
     var baseFiles = [
       'Dockerfile',
       '.gitignore',
-      'app/'
+      'app/',
+      'app/.babelrc',
+      'app/.bootstraprc',
+      'app/.editorconfig',
+      'app/.eslintignore',
+      'app/.eslintrc',
+      'app/.gitignore'
     ];
     copyFiles(baseFiles);
   },
