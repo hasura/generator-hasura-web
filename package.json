@@ -1,6 +1,6 @@
 {
   "name": "generator-hasura-web",
-  "version": "0.2.0-alpha",
+  "version": "0.2.0-alpha2",
   "description": "Builds a simple scaffold to make an app using React + Redux. In-built with eslint, nodemon, file watch etc.",
   "homepage": "https://github.com/hasura/generator-hasura-web",
   "author": {
