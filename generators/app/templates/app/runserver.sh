@@ -1,2 +1,2 @@
-#!/bin/bash
-npm run start-prod
+#!/bin/sh
+cd /app && npm run start-prod
