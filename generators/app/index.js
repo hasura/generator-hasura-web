@@ -32,6 +32,7 @@ module.exports = yeoman.Base.extend({
     var copyFiles = fileListCopy.bind(this);
     var baseFiles = [
       'Dockerfile',
+      '.dockerignore',
       '.gitignore',
       'app/',
       'app/.babelrc',
