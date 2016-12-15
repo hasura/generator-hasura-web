@@ -4,10 +4,16 @@ const LOAD = 'SOHot/load';
 const LOAD_SUCCESS = 'SOHot/load/success';
 const LOAD_FAIL = 'SOHot/load/fail';
 
-const load = () => ({
-  types: [LOAD, LOAD_SUCCESS, LOAD_FAIL],
-  promise: (client) => client.get('/2.2/questions?order=desc&sort=hot&site=stackoverflow')
-});
+import {
+  makeRequest,
+  createDefaultFetchOption
+} from '../../utils/fetch';
+
+const load = () => {
+  const options = createDefaultFetchOption(null, false, 'GET', false);
+  const url = 'http://api.stackexchange.com/2.2/questions?order=desc&sort=hot&site=stackoverflow';
+  return makeRequest(url, options, LOAD_SUCCESS, LOAD_FAIL, LOAD);
+};
 
 const isLoaded = (componentProps) => (
   true && componentProps.questions
@@ -27,7 +33,7 @@ const sohotReducer = (state = defaultState, action) => {
     case LOAD_SUCCESS:
       return {
         ...state,
-        data: { ...state.data, results: action.result.items },
+        data: { ...state.data, results: action.data.items },
         loaded: true,
         loading: false,
         error: null
@@ -48,4 +54,4 @@ const sohotReducer = (state = defaultState, action) => {
 };
 
 export default sohotReducer;
-export { isLoaded, load };
+export { isLoaded, load};

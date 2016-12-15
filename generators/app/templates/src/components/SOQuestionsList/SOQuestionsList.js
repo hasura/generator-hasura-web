@@ -19,7 +19,7 @@ class SOQuestionsList extends React.Component {
     return (
       <div>
         {
-          questions.map((ques, i) => (
+          questions && questions.map((ques, i) => (
             highlightable ?
               <div key={i} style={{ padding: 2 + 'px' }}>
                 <SOQHighlightable unique={uniquePrefix.concat(i)} question={ques}/>

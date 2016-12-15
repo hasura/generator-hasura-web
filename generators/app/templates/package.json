@@ -63,6 +63,7 @@
     "express": "^4.13.3",
     "file-loader": "^0.8.5",
     "history": "1.17.0",
+    "import": "0.0.6",
     "isomorphic-fetch": "^2.2.1",
     "less": "^2.5.3",
     "less-loader": "^2.2.1",
@@ -72,6 +73,7 @@
     "react-bootstrap": "^0.28.1",
     "react-dom": "^0.14.7",
     "react-helmet": "^2.2.0",
+    "react-progress-bar-plus": "^1.2.0",
     "react-redux": "^4.0.0",
     "react-router": "^2.0.0",
     "react-router-bootstrap": "^0.20.1",
@@ -108,6 +110,7 @@
     "css-loader": "^0.23.1",
     "eslint": "1.10.3",
     "eslint-config-airbnb": "0.1.0",
+    "eslint-config-xo-space": "^0.8.0",
     "eslint-loader": "^1.0.0",
     "eslint-plugin-import": "^0.8.0",
     "eslint-plugin-react": "^3.5.0",
@@ -132,6 +135,6 @@
     "webpack-hot-middleware": "^2.5.0"
   },
   "engines": {
-    "node": "4.4.7"
+    "node": "6.9.2"
   }
 }

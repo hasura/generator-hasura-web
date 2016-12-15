@@ -1,10 +1,20 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import './progress-bar.scss';
+
+import ProgressBar from 'react-progress-bar-plus';
+
 import {Link} from 'react-router';
 
 class Layout extends React.Component {
   static propTypes = {
-    children: React.PropTypes.element.isRequired
+    children: React.PropTypes.element.isRequired,
+    percent: React.PropTypes.number,
+    intervalTime: React.PropTypes.number,
+    ongoingRequest: React.PropTypes.bool,
+    requestSuccess: React.PropTypes.bool,
+    requestError: React.PropTypes.bool,
+    error: React.PropTypes.object
   };
 
   render() {
@@ -22,10 +32,19 @@ class Layout extends React.Component {
             </Link>
           </div>
         </div>
+        {this.props.ongoingRequest ?
+        <ProgressBar percent={this.props.percent}
+          autoIncrement={true} // eslint-disable-line react/jsx-boolean-value
+          intervalTime={this.props.intervalTime}
+          spinner={false} /> : null}
         {children}
       </div>
     );
   }
 }
 
-export default connect()(Layout);
+const mapStateToProps = (state) => {
+  return {...state.progressBar};
+};
+
+export default connect(mapStateToProps)(Layout);

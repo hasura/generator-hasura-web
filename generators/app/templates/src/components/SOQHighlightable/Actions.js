@@ -8,25 +8,17 @@ const toggleHighlight = (i) => ({
 });
 
 const soqhReducer = (state = defaultState, action) => {
+  const questions = state.questions;
+  const index = state.questions.indexOf(action.questionKey);
+
   switch (action.type) {
-
     case HIGHLIGHT:
-      const newQuestions = state.questions;
-
-      const index = newQuestions.indexOf(action.questionKey);
-      if (index < 0) {
-        newQuestions.push(action.questionKey);
-      } else {
-        newQuestions.splice(index, 1);
-      }
-
-      return {
-        ...state,
-        questions: newQuestions
+      return { ...state,
+        questions: index > 0 ? questions.slice(0, index).concat(questions.slice(index + 1)) :
+          questions.concat(action.questionKey)
       };
-
     default:
-      return {...state};
+      return { ...state};
   }
 };
 

@@ -14,7 +14,7 @@ const routes = (history) => {
       {/* Show header component on all pages of it's child. */}
       <Route path="/" component={Layout} serverDispatch={[loadHot]}>
         <IndexRoute component={Example}/>
-        <Route path="sosearch/:query" component={SOSearch} serverDispatch={[loadResults]}/>
+        <Route path="sosearch(/:query)" component={SOSearch} serverDispatch={[loadResults]}/>
       </Route>
       {/* Any route with path = "*" is set a 404 response on server rendering. */}
       <Route path="*" component={NotFound}/>

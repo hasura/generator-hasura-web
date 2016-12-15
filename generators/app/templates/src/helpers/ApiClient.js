@@ -4,7 +4,7 @@ import {domain} from '../Endpoints'; // help
 const methods = ['get', 'post', 'put', 'patch', 'del'];
 
 function formatUrl(path) {
-  const adjustedPath = path[0] !== '/' ? '/' + path : path;
+  const adjustedPath = path && path[0] !== '/' ? '/' + path : path;
   return 'http://' + domain + adjustedPath;
 }
 

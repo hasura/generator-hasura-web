@@ -21,7 +21,7 @@ import createMiddleware from './utils/createMiddleware';
 import reducer from './reducer';
 import routes from './routes';
 
-//Express middleware
+// Express middleware
 const pretty = new PrettyError();
 const app = new Express();
 const server = new http.Server(app);
@@ -50,7 +50,7 @@ app.use((req, res) => {
   // Create the store to render during SSR
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
-  let _finalCreateStore = compose(
+  const _finalCreateStore = compose(
     applyMiddleware(createMiddleware(client), thunk, routerMiddleware(memoryHistory))
   )(createStore);
   const store = _finalCreateStore(reducer);
@@ -65,58 +65,55 @@ app.use((req, res) => {
       res.status(500);
       hydrateOnClient();
     } else if (renderProps) {
+      // Last matched route
+      const lastRoute = renderProps.routes[renderProps.routes.length - 1];
+      let status = 200;
+      // If path == * then 404 page
+      if (lastRoute.path === '*') {
+        status = 404;
+      }
 
-        // Last matched route
-        const lastRoute = renderProps.routes[renderProps.routes.length - 1];
-        let status = 200;
-        // If path == * then 404 page
-        if (lastRoute.path == '*') {
-          status = 404;
+      // Returns array of fetchData functions
+      const dispatchAll = () => {
+        // For all matched routes make fetchData promises
+        const rp = renderProps;
+        const allActionCreators = rp.routes.reduce((result, route) => {
+          // Server Dispatch Present?
+          const sdPresent = route && route.serverDispatch !== undefined &&
+            route.serverDispatch.filter(sd => (sd instanceof Array));
+
+          return sdPresent ? [...result, ...route.serverDispatch] : result;
+        }, []);
+
+        return allActionCreators;
+      };
+
+      // Run the promise to fetch all required data.
+      const actionDispatchers = dispatchAll().map(
+        (a) => {
+          return store.dispatch(a(renderProps.params ? renderProps.params : undefined));
         }
-
-        // Returns array of fetchData functions
-        const dispatchAll = () => {
-          // For all matched routes make fetchData promises
-          const rp = renderProps;
-          const allActionCreators = rp.routes.reduce((result, route) => {
-            // Server Dispatch Present?
-            const sdPresent = route && route.serverDispatch !== undefined &&
-              route.serverDispatch.filter(sd => (sd instanceof Array));
-
-            return sdPresent ? [...result, ...route.serverDispatch] : result;
-          }, []);
-
-          return allActionCreators;
-        };
-
-        // Run the promise to fetch all required data.
-        const actionDispatchers = dispatchAll().map(
-          a => store.dispatch(
-            a(renderProps.params ? renderProps.params : undefined)
-          )
+      );
+      Promise.all(actionDispatchers).then(() => {
+        // When all successfully resolved
+        const component = ReactDOM.renderToString(
+          <Provider store={store} key="provider">
+            <RouterContext {...renderProps} />
+          </Provider>
         );
-        // console.log(actionDispatchers);
-        Promise.all(actionDispatchers).then(() => {
-          // When all successfully resolved
-          const component = ReactDOM.renderToString(
-            <Provider store={store} key="provider">
-              <RouterContext {...renderProps} />
-            </Provider>
-          );
 
-          global.navigator = {userAgent: req.headers['user-agent']};
+        global.navigator = {userAgent: req.headers['user-agent']};
+        res.status(status);
 
-          res.status(status);
-
-          res.send('<!DOCTYPE html>\n' +
-            ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
-        }).catch((error) => {
-          // When the API isn't reachable/fulfilled
-          const error_message = new Error('Couldn\'t fetch all data on server:\nServer sent: ' + JSON.stringify(error));
-          console.error(pretty.render(error_message));
-          res.status(500);
-          hydrateOnClient();
-        });
+        res.send('<!DOCTYPE html>\n' +
+          ReactDOM.renderToStaticMarkup(<Html assets={webpackIsomorphicTools.assets()} component={component} initialStore={store.getState()} />));
+      }).catch((err) => {
+        // When the API isn't reachable/fulfilled
+        const errorMessage = new Error('Couldn\'t fetch all data on server:\nServer sent: ' + JSON.stringify(err));
+        console.error(pretty.render(errorMessage));
+        res.status(500);
+        hydrateOnClient();
+      });
     } else {
       res.status(404).send('Not found');
     }
