@@ -17,7 +17,6 @@ import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux';
 import createHistory from 'react-router/lib/createMemoryHistory';
 
 import ApiClient from './helpers/ApiClient';
-import createMiddleware from './utils/createMiddleware';
 import reducer from './reducer';
 import routes from './routes';
 
@@ -51,7 +50,7 @@ app.use((req, res) => {
   const client = new ApiClient(req);
   const memoryHistory = createHistory(req.originalUrl);
   const _finalCreateStore = compose(
-    applyMiddleware(createMiddleware(client), thunk, routerMiddleware(memoryHistory))
+    applyMiddleware(thunk, routerMiddleware(memoryHistory))
   )(createStore);
   const store = _finalCreateStore(reducer);
   const history = syncHistoryWithStore(memoryHistory, store);

@@ -12,8 +12,6 @@ import { Router, match, browserHistory } from 'react-router';
 import { routerMiddleware, syncHistoryWithStore} from 'react-router-redux';
 import {compose, createStore, applyMiddleware} from 'redux';
 
-import ApiClient from './helpers/ApiClient';
-import createMiddleware from './utils/createMiddleware';
 import reducer from './reducer';
 import routes from './routes';
 
@@ -21,17 +19,16 @@ import routes from './routes';
 
 // Create the store
 let _finalCreateStore;
-const client = new ApiClient();
 if (__DEVELOPMENT__) {
   const DevTools = require('./helpers/DevTools/DevTools');
   _finalCreateStore = compose(
-    applyMiddleware(thunk, createMiddleware(client), routerMiddleware(browserHistory), createLogger()),
+    applyMiddleware(thunk, routerMiddleware(browserHistory), createLogger()),
     DevTools.instrument(),
     require('redux-devtools').persistState( window.location.href.match(/[?&]debug_session=([^&]+)\b/))
   )(createStore);
 } else {
   _finalCreateStore = compose(
-    applyMiddleware(thunk, createMiddleware(client), routerMiddleware(browserHistory))
+    applyMiddleware(thunk, routerMiddleware(browserHistory))
   )(createStore);
 }
 
