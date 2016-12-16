@@ -31,26 +31,23 @@ module.exports = yeoman.Base.extend({
     // root files
     var copyFiles = fileListCopy.bind(this);
     var baseFiles = [
-      'app.json',
-      'package.json',
-      'hasuraconfig.js',
-      'README.md',
-      'runserver.sh',
-      '.babelrc',
-      '.bootstraprc',
-      '.editorconfig',
-      '.eslintrc',
-      '.eslintignore',
-      'server.babel.js',
-      'bin/',
-      'src/',
-      'static/',
-      'webpack/'
+      'Dockerfile',
+      '.dockerignore',
+      '.gitignore',
+      'app/',
+      'app/.babelrc',
+      'app/.bootstraprc',
+      'app/.editorconfig',
+      'app/.eslintignore',
+      'app/.eslintrc',
+      'app/.gitignore'
     ];
-    copyFiles(baseFiles); 
+    copyFiles(baseFiles);
   },
 
   install: function () {
+    var appDir = process.cwd() + '/app';
+    process.chdir(appDir);
     this.installDependencies({ bower: false });
   }
 });
