@@ -33,7 +33,7 @@ yo hasura-web
 
 ## License
 
-MIT © [Vamsi Sai T]()
+MIT © [Hasura]()
 
 
 [npm-image]: https://badge.fury.io/js/generator-hasura-web.svg
