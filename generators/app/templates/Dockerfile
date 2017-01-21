@@ -13,4 +13,4 @@ ADD app /app/
 RUN cd /app && npm run build
 
 #Default command
-CMD ["/app/runserver.sh"]FROM mhart/alpine-node:4.4
+CMD ["/app/runserver.sh"]
