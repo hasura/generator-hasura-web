@@ -24,7 +24,8 @@ The developer tools packaged in this bundle provide:
 * To build, bundle your app files by running `npm run build`.
 * In a production environment, the command `npm run start-prod` will run a server at `localhost:8080`.
 * To build this as a docker image, after running `npm run build` head to the TLD (outside the `app/` folder) and run `docker build -t myapp:1.0.`.
-* To run your docker image: `docker run myapp:1.0`
+* To run your docker image: `docker run -p 8080:8080 myapp:1.0`
+* Now navigate to `http:\\localhost:8080` to see the client
 
 ##Learning react/redux and the tools in this stack:
 * Extermely [basic react](https://facebook.github.io/react/docs/hello-world.html)
